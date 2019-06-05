@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './Home';
 import UserProfile from './UserProfile';
 import Login from './Login';
+import axios from 'axios';
 import '../styles/App.css';
 
 class App extends Component{
@@ -10,12 +11,33 @@ class App extends Component{
     super(props);
 
     this.state = {
-      accountBalance: 14568.27,
       currentUser: {
         userName: 'bob_loblaw',
         memberSince: '08/23/99',
-      }
+      },
+      totalDebits: {},
+      totalCredits: {}
     }
+
+    axios.get('https://moj-api.herokuapp.com/debits')
+      .then(response => {
+        let totalDebits = response.data;
+        this.setState({totalDebits})
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    axios.get('https://moj-api.herokuapp.com/credits')
+      .then(response => {
+        let totalCredits = response.data;
+        this.setState({totalCredits})
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+      this.getBalance = this.getBalance.bind(this);
   }
 
   mockLogIn = (logInInfo) => {
@@ -24,8 +46,22 @@ class App extends Component{
     this.setState({currentUser: newUser})
   }
 
+  getBalance = () => {
+    let total = 0;
+    let debits = this.state.totalDebits;
+    let credits = this.state.totalCredits;
+
+    for(let i = 0; i < debits.length; i++)
+      total -= debits[i].amount;
+
+    for(let i = 0; i < credits.length; i++)
+      total += credits[i].amount;
+
+    return (Math.floor(total * 100) / 100);
+  }
+
   render(){
-    const HomeComponent = () => (<Home accountBalance={this.state.accountBalance}/>);
+    const HomeComponent = () => (<Home accountBalance={this.getBalance()}/>);
     const UserProfileComponent = () => (
       <UserProfile
         userName={this.state.currentUser.userName}
@@ -38,6 +74,8 @@ class App extends Component{
         mockLogIn={this.mockLogIn} {...this.props}
       />
     );
+
+    console.log(this.state.totalCredits, this.state.totalDebits);
 
     return (
       <Router>
