@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './Home';
 import UserProfile from './UserProfile';
 import Login from './Login';
+import Debits from './Debits';
 import axios from 'axios';
 import '../styles/App.css';
 
@@ -15,8 +16,8 @@ class App extends Component{
         userName: 'bob_loblaw',
         memberSince: '08/23/99',
       },
-      totalDebits: {},
-      totalCredits: {}
+      totalDebits: [],
+      totalCredits: []
     }
 
     axios.get('https://moj-api.herokuapp.com/debits')
@@ -38,12 +39,28 @@ class App extends Component{
       });
 
       this.getBalance = this.getBalance.bind(this);
+      this.addDebit = this.addDebit.bind(this);
   }
 
   mockLogIn = (logInInfo) => {
     const newUser = {...this.state.currentUser}
     newUser.userName = logInInfo.userName
     this.setState({currentUser: newUser})
+  }
+
+  addDebit = (transaction) => {
+    let totalDebits = [...this.state.totalDebits]
+    let newTransaction = {
+      'description': transaction.description,
+      'amount': parseInt(transaction.amount),
+      'date': new Date()
+    };
+    totalDebits.push(newTransaction);
+    console.log(totalDebits);
+    this.setState({totalDebits}, function(){
+      console.log(this.state.totalDebits);
+      this.forceUpdate();
+    });
   }
 
   getBalance = () => {
@@ -75,7 +92,15 @@ class App extends Component{
       />
     );
 
-    console.log(this.state.totalCredits, this.state.totalDebits);
+    const passInDebit = this.state.totalDebits;
+
+    const DebitsComponent = () => (
+      <Debits
+        totalDebits={passInDebit}
+        accountBalance={this.getBalance()}
+        addDebit={this.addDebit} {...this.props}
+      />
+    )
 
     return (
       <Router>
@@ -83,6 +108,7 @@ class App extends Component{
           <Route path ="/" exact render = {HomeComponent}/>
           <Route exact path="/userProfile" render={UserProfileComponent}/>
           <Route exact path="/login" render={LogInComponent}/>
+          <Route exact path="/debits" render={DebitsComponent}/>
         </div>
       </Router>
     );
