@@ -11,7 +11,13 @@ class AccountBalance extends Component {
           <div className="ui small feed">
             <div className="event">
               <div className="content">
-                <div className="summary" style={{textAlign: 'center', fontSize: '30px', marginTop: '6.25%',marginBottom: '6.25%'}}>
+                <div
+                  className="summary"
+                  style={{textAlign: 'center',
+                          fontSize: '30px',
+                          marginTop: '6.25%',
+                          marginBottom: '6.25%'}}
+                >
                    {this.props.accountBalance}
                 </div>
               </div>

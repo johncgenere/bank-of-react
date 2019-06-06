@@ -45,7 +45,6 @@ class Debits extends Component {
   render(){
     let table=[];
     for(let i = 0; i < this.props.totalDebits.length; i++){
-      console.log(this.props.totalDebits[i]);
       table.push(<tr>
                    <td>{this.props.totalDebits[i].amount}</td>
                    <td>{this.props.totalDebits[i].description}</td>
@@ -56,7 +55,13 @@ class Debits extends Component {
     return(
       <div className="App">
         <div className="App-header">
-          <img src={logo} alt="React" className="App-logo" style={{width: '20%', height: '20%'}}/>
+          <img
+            src={logo}
+            alt="React"
+            className="App-logo"
+            style={{width: '20%',
+            height: '20%'}}
+          />
           <h1 style={{marginTop: '-0.75%'}}>Debits</h1>
           <button className="ui button" style={{marginBottom:'2%'}}>
             <Link to="/">Go Home</Link>
@@ -82,7 +87,7 @@ class Debits extends Component {
                   />
                 </div>
                 <div className="ui fluid large primary button" onClick={this.handleAdd}>
-                  <i className="plus icon"></i>Add
+                  <i className="plus icon"></i>Add a Debit
                 </div>
                 <p style={{color: 'black', textAlign: 'center', marginTop: '5%', fontSize: '15px'}}>
                   The time for the new debit will be the current time.
