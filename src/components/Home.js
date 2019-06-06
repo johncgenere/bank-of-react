@@ -7,13 +7,23 @@ import '../styles/App.css'
 class Home extends Component {
   render(){
     return(
-      <div>
-        <img src={logo} alt="React" className="App-logo" style={{width: '20%', height: '20%'}}/>
-        <h1>Bank of React</h1>
-        <Link to="/userProfile">User Profile</Link><br/>
-        <Link to="/debits">Debits</Link><br/>
-        <Link to="/credits">Credits</Link><br/>
-        <AccountBalance accountBalance={this.props.accountBalance} />
+      <div className="App">
+        <div className="App-header">
+          <img src={logo} alt="React" className="App-logo" style={{width: '20%', height: '20%'}}/>
+          <h1 style={{marginTop: '-0.75%'}}>Bank of React</h1>
+          <div style={{flexDirection: 'row'}}>
+            <button className="ui button">
+              <Link to="/userProfile">User Profile</Link>
+            </button>
+            <button className="ui button">
+              <Link to="/debits">Debits</Link>
+            </button>
+            <button className="ui button">
+              <Link to="/credits">Credits</Link>
+            </button>
+          </div>
+          <AccountBalance accountBalance={this.props.accountBalance} />
+        </div>
       </div>
     );
   }

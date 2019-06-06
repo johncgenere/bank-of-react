@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import logo from '../images/logo.svg';
 import AccountBalance from './AccountBalance';
+import Transactions from './Transactions';
 
 class Debits extends Component {
   constructor(props){
@@ -63,57 +64,65 @@ class Debits extends Component {
     let table=[];
     for(let i = 0; i < this.props.totalDebits.length; i++){
       console.log(this.props.totalDebits[i]);
-      table.push(<div>
-                    <h1 style={{color: 'black'}}>Description: {this.props.totalDebits[i].description}</h1>
-                    <h1 style={{color: 'black'}}>Amount: {this.props.totalDebits[i].amount}</h1>
-                    <h1 style={{color: 'black'}}>Date: {this.props.totalDebits[i].date}</h1>
-                 </div>);
+      table.push(<Transactions
+                    description={this.props.totalDebits[i].description}
+                    amount={this.props.totalDebits[i].amount}
+                    date={this.props.totalDebits[i].date}
+                 />);
 
     }
 
     if(this.state.add){
       return(
-        <div>
-          <img src={logo} alt="React" className="App-logo" style={{width: '20%', height: '20%'}}/>
-          <h1>Bank of React</h1>
-          <Link to="/">Go Home</Link>
-          <AccountBalance accountBalance={this.props.accountBalance} />
-          <form className="ui large form" style={{width: '40%'}}>
-            <div className="ui stacked segment">
-              <div className="field">
-                <input
-                  type="text"
-                  name="Description"
-                  placeholder="Description"
-                  onChange={this.handleDescriptionInput}
-                />
+        <div className="App">
+          <div className="App-header">
+            <img src={logo} alt="React" className="App-logo" style={{width: '20%', height: '20%'}}/>
+            <h1 style={{marginTop: '-0.75%'}}>Bank of React</h1>
+            <Link to="/">Go Home</Link>
+            <AccountBalance accountBalance={this.props.accountBalance} />
+            <form className="ui large form" style={{width: '40%'}}>
+              <div className="ui stacked segment">
+                <div className="field">
+                  <input
+                    type="text"
+                    name="Description"
+                    placeholder="Description"
+                    onChange={this.handleDescriptionInput}
+                  />
+                </div>
+                <div className="field">
+                  <input
+                    type="text"
+                    name="Amount"
+                    placeholder="Amount"
+                    onChange={this.handleAmountInput}
+                  />
+                </div>
+                <div className="ui fluid large green submit button" onClick={this.handleAdd}>Add</div>
+                <div className="ui fluid large red submit button" onClick={this.handleCancel} style={{marginTop: '3%'}}>Cancel</div>
               </div>
-              <div className="field">
-                <input
-                  type="text"
-                  name="Amount"
-                  placeholder="Amount"
-                  onChange={this.handleAmountInput}
-                />
-              </div>
-              <div className="ui fluid large green submit button" onClick={this.handleAdd}>Add</div>
-              <div className="ui fluid large red submit button" onClick={this.handleCancel} style={{marginTop: '3%'}}>Cancel</div>
+            </form>
+            <div style={{flexDirection: 'row'}}>
+              {table}
             </div>
-          </form>
-          {table}
+          </div>
         </div>
       );
     } else {
       return(
-        <div>
-          <img src={logo} alt="React" className="App-logo" style={{width: '20%', height: '20%'}}/>
-          <h1>Bank of React</h1>
-          <Link to="/">Go Home</Link>
-          <AccountBalance accountBalance={this.props.accountBalance} />
-          <button className="ui primary button" onClick={this.onAdd}>
-            <i className="plus icon"></i> Add Debit
-          </button>
-          {table}
+        <div className="App">
+          <div className="App-header">
+            <img src={logo} alt="React" className="App-logo" style={{width: '20%', height: '20%'}}/>
+            <h1 style={{marginTop: '-0.75%'}}>Bank of React</h1>
+            <Link to="/">Go Home</Link>
+            <AccountBalance accountBalance={this.props.accountBalance} />
+            <button className="ui primary button" onClick={this.onAdd}>
+              <i className="plus icon"></i> Add Debit
+            </button>
+            <div className="ui grid container" style={{flexDirection: 'row', width: '100%'}}>
+              {table}
+            </div>
+          </div>
         </div>
       );
     }
