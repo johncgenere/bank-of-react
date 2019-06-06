@@ -45,7 +45,6 @@ class Credits extends Component {
   render(){
     let table=[];
     for(let i = 0; i < this.props.totalCredits.length; i++){
-      console.log(this.props.totalCredits[i]);
       table.push(<tr>
                    <td>{this.props.totalCredits[i].amount}</td>
                    <td>{this.props.totalCredits[i].description}</td>
@@ -56,7 +55,12 @@ class Credits extends Component {
     return(
       <div className="App">
         <div className="App-header">
-          <img src={logo} alt="React" className="App-logo" style={{width: '20%', height: '20%'}}/>
+          <img
+            src={logo}
+            alt="React"
+            className="App-logo"
+            style={{width: '20%', height: '20%'}}
+          />
           <h1 style={{marginTop: '-0.75%'}}>Credits</h1>
           <button className="ui button" style={{marginBottom:'2%'}}>
             <Link to="/">Go Home</Link>
@@ -82,10 +86,10 @@ class Credits extends Component {
                   />
                 </div>
                 <div className="ui fluid large primary button" onClick={this.handleAdd}>
-                  <i className="plus icon"></i>Add
+                  <i className="plus icon"></i>Add a Credit
                 </div>
                 <p style={{color: 'black', textAlign: 'center', marginTop: '5%', fontSize: '15px'}}>
-                  The time for the new debit will be the current time.
+                  The time for the new credit will be the current time.
                 </p>
               </div>
             </form>

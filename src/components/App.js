@@ -59,10 +59,7 @@ class App extends Component{
       'date': date
     };
     totalDebits.push(newTransaction);
-    this.setState({totalDebits}, function(){
-      console.log(this.state.totalDebits);
-      this.forceUpdate();
-    });
+    this.setState({totalDebits});
   }
 
   addCredit = (transaction) => {
@@ -75,10 +72,7 @@ class App extends Component{
       'date': date
     };
     totalCredits.push(newTransaction);
-    this.setState({totalCredits}, function(){
-      console.log(this.state.totalCredits);
-      this.forceUpdate();
-    });
+    this.setState({totalCredits});
   }
 
   getBalance = () => {
