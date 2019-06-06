@@ -2,38 +2,21 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import logo from '../images/logo.svg';
 import AccountBalance from './AccountBalance';
-import Transactions from './Transactions';
 
 class Debits extends Component {
   constructor(props){
       super(props);
 
       this.state = {
-        add: false,
         newTransaction: {
           description: '',
           amount: ''
         }
       }
 
-      this.onAdd = this.onAdd.bind(this);
       this.handleDescriptionInput = this.handleDescriptionInput.bind(this);
       this.handleAmountInput = this.handleAmountInput.bind(this);
       this.handleAdd = this.handleAdd.bind(this);
-      this.handleCancel = this.handleCancel.bind(this);
-
-  }
-
-  onAdd = (event) => {
-    this.setState({add: true});
-  }
-
-  handleCancel = (event) => {
-    let resetTransaction = {
-                             description: '',
-                             amount: ''
-                           }
-    this.setState({add: false, newTransaction: resetTransaction});
   }
 
   handleDescriptionInput = (e) => {
@@ -55,8 +38,7 @@ class Debits extends Component {
   handleAdd = (event) => {
     if(this.state.newTransaction.description !== '' && this.state.newTransaction.amount !== ''){
       event.preventDefault();
-      this.props.addDebit(this.state.newTransaction)
-      this.setState({add: false})
+      this.props.addDebit(this.state.newTransaction);
     }
   }
 
@@ -64,23 +46,24 @@ class Debits extends Component {
     let table=[];
     for(let i = 0; i < this.props.totalDebits.length; i++){
       console.log(this.props.totalDebits[i]);
-      table.push(<Transactions
-                    description={this.props.totalDebits[i].description}
-                    amount={this.props.totalDebits[i].amount}
-                    date={this.props.totalDebits[i].date}
-                 />);
-
+      table.push(<tr>
+                   <td>{this.props.totalDebits[i].amount}</td>
+                   <td>{this.props.totalDebits[i].description}</td>
+                   <td>{this.props.totalDebits[i].date}</td>
+                 </tr>);
     }
 
-    if(this.state.add){
-      return(
-        <div className="App">
-          <div className="App-header">
-            <img src={logo} alt="React" className="App-logo" style={{width: '20%', height: '20%'}}/>
-            <h1 style={{marginTop: '-0.75%'}}>Bank of React</h1>
+    return(
+      <div className="App">
+        <div className="App-header">
+          <img src={logo} alt="React" className="App-logo" style={{width: '20%', height: '20%'}}/>
+          <h1 style={{marginTop: '-0.75%'}}>Debits</h1>
+          <button className="ui button" style={{marginBottom:'2%'}}>
             <Link to="/">Go Home</Link>
+          </button>
+          <div style={{display: 'flex', flexDirection: 'row', width: '100%', marginLeft: '35%'}}>
             <AccountBalance accountBalance={this.props.accountBalance} />
-            <form className="ui large form" style={{width: '40%'}}>
+            <form className="ui large form" style={{width: '30%', marginLeft: '5%'}}>
               <div className="ui stacked segment">
                 <div className="field">
                   <input
@@ -98,34 +81,30 @@ class Debits extends Component {
                     onChange={this.handleAmountInput}
                   />
                 </div>
-                <div className="ui fluid large green submit button" onClick={this.handleAdd}>Add</div>
-                <div className="ui fluid large red submit button" onClick={this.handleCancel} style={{marginTop: '3%'}}>Cancel</div>
+                <div className="ui fluid large primary button" onClick={this.handleAdd}>
+                  <i className="plus icon"></i>Add
+                </div>
+                <p style={{color: 'black', textAlign: 'center', marginTop: '5%', fontSize: '15px'}}>
+                  The time for the new debit will be the current time.
+                </p>
               </div>
             </form>
-            <div style={{flexDirection: 'row'}}>
-              {table}
-            </div>
           </div>
-        </div>
-      );
-    } else {
-      return(
-        <div className="App">
-          <div className="App-header">
-            <img src={logo} alt="React" className="App-logo" style={{width: '20%', height: '20%'}}/>
-            <h1 style={{marginTop: '-0.75%'}}>Bank of React</h1>
-            <Link to="/">Go Home</Link>
-            <AccountBalance accountBalance={this.props.accountBalance} />
-            <button className="ui primary button" onClick={this.onAdd}>
-              <i className="plus icon"></i> Add Debit
-            </button>
-            <div className="ui grid container" style={{flexDirection: 'row', width: '100%'}}>
+          <table className="ui single line table" style={{width: '95%', marginBottom: '2.5%'}}>
+            <thead>
+              <tr>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
               {table}
-            </div>
-          </div>
+            </tbody>
+          </table>
         </div>
-      );
-    }
+      </div>
+    );
   }
 }
 
