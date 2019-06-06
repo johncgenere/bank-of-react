@@ -29,9 +29,9 @@ class Debits extends Component {
 
   handleCancel = (event) => {
     let resetTransaction = {
-                           description: '',
-                           amount: ''
-                         }
+                             description: '',
+                             amount: ''
+                           }
     this.setState({add: false, newTransaction: resetTransaction});
   }
 
@@ -52,7 +52,7 @@ class Debits extends Component {
   }
 
   handleAdd = (event) => {
-    if(this.state.newTransaction.description !== '' || this.state.newTransaction.amount !== ''){
+    if(this.state.newTransaction.description !== '' && this.state.newTransaction.amount !== ''){
       event.preventDefault();
       this.props.addDebit(this.state.newTransaction)
       this.setState({add: false})
@@ -62,6 +62,7 @@ class Debits extends Component {
   render(){
     let table=[];
     for(let i = 0; i < this.props.totalDebits.length; i++){
+      console.log(this.props.totalDebits[i]);
       table.push(<div>
                     <h1 style={{color: 'black'}}>Description: {this.props.totalDebits[i].description}</h1>
                     <h1 style={{color: 'black'}}>Amount: {this.props.totalDebits[i].amount}</h1>

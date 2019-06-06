@@ -50,13 +50,14 @@ class App extends Component{
 
   addDebit = (transaction) => {
     let totalDebits = [...this.state.totalDebits]
+    let d = new Date();
+    let date = d.toString();
     let newTransaction = {
       'description': transaction.description,
       'amount': parseInt(transaction.amount),
-      'date': new Date()
+      'date': date
     };
     totalDebits.push(newTransaction);
-    console.log(totalDebits);
     this.setState({totalDebits}, function(){
       console.log(this.state.totalDebits);
       this.forceUpdate();
