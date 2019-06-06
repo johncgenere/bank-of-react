@@ -4,6 +4,7 @@ import Home from './Home';
 import UserProfile from './UserProfile';
 import Login from './Login';
 import Debits from './Debits';
+import Credits from './Credits';
 import axios from 'axios';
 import '../styles/App.css';
 
@@ -64,6 +65,22 @@ class App extends Component{
     });
   }
 
+  addCredit = (transaction) => {
+    let totalCredits = [...this.state.totalCredits]
+    let d = new Date();
+    let date = d.toString();
+    let newTransaction = {
+      'description': transaction.description,
+      'amount': parseInt(transaction.amount),
+      'date': date
+    };
+    totalCredits.push(newTransaction);
+    this.setState({totalCredits}, function(){
+      console.log(this.state.totalCredits);
+      this.forceUpdate();
+    });
+  }
+
   getBalance = () => {
     let total = 0;
     let debits = this.state.totalDebits;
@@ -94,12 +111,21 @@ class App extends Component{
     );
 
     const passInDebit = this.state.totalDebits;
+    const passInCredit = this.state.totalCredits;
 
     const DebitsComponent = () => (
       <Debits
         totalDebits={passInDebit}
         accountBalance={this.getBalance()}
         addDebit={this.addDebit} {...this.props}
+      />
+    )
+
+    const CreditsComponent = () => (
+      <Credits
+        totalCredits={passInCredit}
+        accountBalance={this.getBalance()}
+        addCredit={this.addCredit} {...this.props}
       />
     )
 
@@ -110,6 +136,7 @@ class App extends Component{
           <Route exact path="/userProfile" render={UserProfileComponent}/>
           <Route exact path="/login" render={LogInComponent}/>
           <Route exact path="/debits" render={DebitsComponent}/>
+          <Route exact path="/credits" render={CreditsComponent}/>
         </div>
       </Router>
     );

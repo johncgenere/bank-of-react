@@ -10,7 +10,9 @@ class Home extends Component {
       <div>
         <img src={logo} alt="React" className="App-logo" style={{width: '20%', height: '20%'}}/>
         <h1>Bank of React</h1>
-        <Link to="/userProfile">User Profile</Link>
+        <Link to="/userProfile">User Profile</Link><br/>
+        <Link to="/debits">Debits</Link><br/>
+        <Link to="/credits">Credits</Link><br/>
         <AccountBalance accountBalance={this.props.accountBalance} />
       </div>
     );
